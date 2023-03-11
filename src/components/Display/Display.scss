@@ -1,0 +1,17 @@
+.display {
+    padding: 4px;
+    width: 240px;
+    background: #fff;
+    border-radius: 4px;
+
+    &__inner {
+        padding: 4px 8px;
+        background: #F3F4F6;
+        border-radius: 6px;
+        color: #111827;
+        text-align: right;
+        font-weight: 800;
+        font-size: 36px;
+        line-height: 44px;
+    }
+}

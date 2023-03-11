@@ -1,0 +1,35 @@
+.canvas {
+    &-board {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px dashed #C4C4C4;
+        border-radius: 6px;
+    }
+
+    &-content {
+        width: 127px;
+        text-align: center;
+    }
+
+    &-img {
+        margin-bottom: 12px;
+    }
+
+    &-title {
+        margin-bottom: 4px;
+        font-size: 14px;
+        line-height: 17px;
+        color: #5D5FEF;
+    }
+
+    &-text {
+        font-size: 12px;
+        line-height: 15px;
+        color: #6B7280;
+    }
+}
+
+.green {
+    background: #F0F9FF;
+}
