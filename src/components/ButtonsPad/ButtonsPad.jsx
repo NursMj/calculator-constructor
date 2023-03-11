@@ -5,7 +5,7 @@ const ButtonsPad = ({type}) => {
     let buttonsList
     
     switch (type) {
-        case 'opperators':
+        case 'operators':
             buttonsList = ['/', 'x', '-', '+']
             break;
         case 'digital':
@@ -18,7 +18,8 @@ const ButtonsPad = ({type}) => {
 
 
     return (
-        <div className="buttons-pad shadow">
+        <div 
+            className="buttons-pad">
             {buttonsList.map(inner => <Button inner={inner} type={type} key={inner}/>)}
         </div>
     );

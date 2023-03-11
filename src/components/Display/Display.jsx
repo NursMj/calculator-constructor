@@ -2,7 +2,7 @@ import './Display.scss'
 
 const Display = () => {
     return (
-        <div className="display shadow trans">
+        <div className="display">
             <div className="display__inner">
                 0
             </div>

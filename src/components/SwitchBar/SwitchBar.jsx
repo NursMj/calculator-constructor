@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useContext } from 'react'
 import './SwitchBar.scss'
 import eye from '../../assets/eye.svg'
 import eyeActive from '../../assets/eyeActive.svg'
 import arrows from '../../assets/arrows.svg'
 import arrowsActive from '../../assets/arrowsActive.svg'
+import {Context} from '../../context'
 
 const SwitchBar = () => {
-    let [isRuntimeActive, setRuntimeActive] = useState(false)
+    let {isRuntimeActive, setRuntimeActive} = useContext(Context)
     const activeClass = 'switch__btn_active'
 
     const switchChange = (e) => {
@@ -16,7 +17,7 @@ const SwitchBar = () => {
     }
 
     return (
-        <div className='switch-bar'>
+        <div className='switch-bar pointer'>
             <div 
                 className={`switch__btn ${isRuntimeActive && activeClass}`}
                 onClick={switchChange}
