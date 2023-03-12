@@ -19,6 +19,20 @@
     grid-column: 2 / 3;
 }
 
-.trans {
-    opacity: 0.5;
+.widget-wrapper {
+    position: relative;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.mb-12 {
+    margin-bottom: 12px;
+}
+
+.mb-8 {
+    margin-bottom: 8px;
+}
+
+.move {
+    cursor: move;
 }

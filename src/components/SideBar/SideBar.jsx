@@ -6,18 +6,17 @@ import './SideBar.scss'
 
 const SideBar = () => {
     
-    const {isRuntimeActive, widgets, dragStartHandler, dragEndHandler} = useContext(Context)
+    const {isRuntimeActive, widgets, dragStartHandler} = useContext(Context)
 
 
     return (
         <div className='side-bar'>
-            {widgets.map((widget, i) => {
+            {!isRuntimeActive && widgets.map((widget, i) => {
                 return <div 
                             onDragStart={e => dragStartHandler(e, widget)}
-                            onDragEnd={e => dragEndHandler(e)}
                             key={i} 
-                            className='widget-wrapper pointer shadow' 
-                            draggable={!isRuntimeActive}
+                            className={'widget-wrapper shadow mb-12 ' + (!widget.sideBar && 'transparent') + (!isRuntimeActive && ' move')}
+                            draggable={!isRuntimeActive && widget.sideBar}
                         >
                             {widget.type === 'display' ? <Display /> : <ButtonsPad type={widget.type}/>}
                         </div>

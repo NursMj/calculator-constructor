@@ -1,9 +1,9 @@
 .canvas {
     &-board {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 2px dashed #C4C4C4;
+        flex-direction: column;
+        width: 240px;
+        height: 448px;
         border-radius: 6px;
     }
 
@@ -30,6 +30,29 @@
     }
 }
 
+.empty {
+    display: flex;
+    justify-content: center;
+    border: 2px dashed #C4C4C4;
+    align-items: center;
+}
+
 .green {
     background: #F0F9FF;
 }
+
+.dragged-on::before {
+    position: absolute;
+    top: -14px;
+    left: -6px;
+    content: url(../../assets/line.svg)
+}
+
+
+.dragged-on-after::after {
+    position: absolute;
+    bottom: -9px;
+    left: -6px;
+    content: url(../../assets/line.svg)
+}
+
