@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SideBar from './components/SideBar'
 import SwitchBar from './components/SwitchBar'
 import CanvasBoard from './components/CanvasBoard'
@@ -11,6 +11,13 @@ const buttons = {
   equelsBtn:['='],
 }
 
+let calcState = {
+  a: '',
+  b: '',
+  operator: '',
+  finish: false,
+}
+
 const App = () => {
   const [isRuntimeActive, setRuntimeActive] = useState(false)
   const [widgets, setWidgets] = useState([
@@ -21,13 +28,8 @@ const App = () => {
   ])
   const [currentWidget, setCurrentWidget] = useState()
   const [canvasWidgets, setCanvasWidgets] = useState([])
-  const [calcState, setCalcState] = useState({
-      finish: false,
-      a: '',
-      b: '',
-      operator: '',
-      display: '0',
-  })
+  const [display, setDisplay] = useState('0')
+
 
   function dragEndHandler(e) {
     e.preventDefault()
@@ -118,43 +120,64 @@ const App = () => {
 
     if (buttons.digitalBtns.includes(key)) {
       if (calcState.b === '' && calcState.operator === '') {
-        setCalcState(prev => {return {...prev, a: prev.a + key}})
-        setCalcState(prev => {return {...prev, display: prev.a}})
-      } else if (calcState.a !== '' && calcState.b !== '' && calcState.finish) {
-        // setCalcState(prev => {return {...prev, b: prev.b + key}})
+        if (key === '.' && calcState.a.includes('.')) return
 
+        calcState.a += key
+        setDisplay(calcState.a)
+      } else if (calcState.a !== '' && calcState.b !== '' && calcState.finish) {
+        calcState.b = key
+        calcState.finish = false
+        setDisplay(calcState.b)
       } else {
-        setCalcState(prev => {return {...prev, b: prev.b + key}})
-        setCalcState(prev => {return {...prev, display: prev.b}})
+        if (key === '.' && calcState.b.includes('.')) return
+
+        calcState.b  += key
+        setDisplay(calcState.b)
       }
+      console.log(calcState)
       return
     } 
 
     if (buttons.operatorBtns.includes(key)) {
-      setCalcState({...calcState, operator: key})
+      calcState.operator = key
+      console.log(calcState);
       return
     }
 
     if (buttons.equelsBtn.includes(key)) {
       let a = calcState.a
       let b = calcState.b
+      if (b === '') b = a
       switch (calcState.operator) {
         case "+":
-          setCalcState(prev => {return {...prev, a: (+a) + (+b)}})
+          calcState.a = (+a) + (+b)
           break
         case "-":
-          setCalcState(prev => {return {...prev, a: (+a) - (+b)}})
+          calcState.a = (+a) - (+b)
           break
         case "x":
-          setCalcState(prev => {return {...prev, a: (+a) * (+b)}})
+          calcState.a = (+a) * (+b)
           break
         case "/":
-          setCalcState(prev => {return {...prev, a: (+a) / (+b)}})
+          if (b === '0') {
+            calcState.a = ''
+            calcState.b = ''
+            calcState.operator = ''
+            setDisplay('Не определено')
+            return
+          }
+          calcState.a = (+a) / (+b)
           break
       }
-      setCalcState(prev => {return {...prev, finish: true, display: prev.a}})
+      calcState.finish = true
+      setDisplay(calcState.a)
+      console.log(calcState);
     }
   }
+
+  useEffect(() => {
+    console.log(display)
+  }, [display])
 
   return (
     <Context.Provider 
@@ -169,7 +192,7 @@ const App = () => {
         dragEndHandler,
         dropHandler,
         canvasWidgets,
-        dislay: calcState.display,
+        display,
         clickHandler,
         doubleClickHandler
         }}>

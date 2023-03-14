@@ -3,12 +3,19 @@ import { Context } from '../../context';
 import './Display.scss'
 
 const Display = () => {
-    const {dislay} = useContext(Context)
+    const {display} = useContext(Context)
+    let classes = 'display__inner '
+
+    if (display === 'Не определено') {
+        classes += ' fz-24'
+    } else if (display.length > 9) {
+        classes += ' fz-19'
+    }
 
     return (
-        <div className="display">
-            <div className="display__inner">
-                {dislay}
+        <div className={'display'}>
+            <div className={classes}>
+                {display}
             </div>
         </div>
     );
