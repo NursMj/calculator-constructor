@@ -16,8 +16,8 @@ const sortCards = (a, b) => {
 
 const CanvasBoard = () => {
 
-    const { dragOverHandler, dropHandler, canvasWidgets, isRuntimeActive, dragStartHandler, dragEndHandler } = useContext(Context)
-
+    const { dragOverHandler, dropHandler, canvasWidgets, isRuntimeActive, dragStartHandler, dragEndHandler, clickHandler, doubleClickHandler } = useContext(Context)
+    
     return (
         <div 
             className={'canvas-board ' + (!canvasWidgets.length && 'empty')} 
@@ -25,21 +25,24 @@ const CanvasBoard = () => {
             onDragLeave={e => dragEndHandler(e)}
             onDragEnd={e => dragEndHandler(e)}
             onDrop={e => dropHandler(e, 'canvas')}
+            onClick={e => clickHandler(e)}
         >
             { canvasWidgets.length ? 
                 <>
                     {
                         canvasWidgets.sort(sortCards).map((widget) => {
+                            const widgetClass = 'widget-wrapper mb-8 ' + (widget.type === 'display' ? widget.type : '') + (!isRuntimeActive && ' move')
+
                             return <div 
                             onDragStart={e => dragStartHandler(e, widget)}
                             onDragOver={e => dragOverHandler(e, widget)}
                             onDragLeave={e => dragEndHandler(e)}
                             onDragEnd={e => dragEndHandler(e)}
                             onDrop={e => dropHandler(e, widget)}
-                            key={widget.type}
-                            className={'widget-wrapper mb-8 '  + (!isRuntimeActive && ' move') + ' ' + (widget.type === 'display' ? widget.type : '')}
-                            draggable={!isRuntimeActive}
-                            onDoubleClick={e => dragStartHandler(e)}
+                            key={widget.id}
+                            className={widgetClass}
+                            draggable={!isRuntimeActive && (widget.type !== 'display')}
+                            onDoubleClick={e => doubleClickHandler(widget)}
                         >
                             {widget.type === 'display' ? <Display /> : <ButtonsPad type={widget.type}/>}
                         </div>

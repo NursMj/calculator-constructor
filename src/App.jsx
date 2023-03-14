@@ -5,18 +5,29 @@ import CanvasBoard from './components/CanvasBoard'
 import {Context} from './context'
 import './App.scss'
 
-const App = () => {
+const buttons = {
+  operatorBtns:['/', 'x', '-', '+'],
+  digitalBtns:['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.'],
+  equelsBtn:['='],
+}
 
+const App = () => {
   const [isRuntimeActive, setRuntimeActive] = useState(false)
   const [widgets, setWidgets] = useState([
-    {type: 'display', order:1, sideBar: true},
-    {type: 'operators', order:2, sideBar: true},
-    {type: 'digital', order:3, sideBar: true},
-    {type: 'equels', order:4, sideBar: true},
+    {id: 1,type: 'display', sideBar: true},
+    {id: 2,type: 'operators', sideBar: true},
+    {id: 3,type: 'digital', sideBar: true},
+    {id: 4,type: 'equels', sideBar: true},
   ])
   const [currentWidget, setCurrentWidget] = useState()
   const [canvasWidgets, setCanvasWidgets] = useState([])
-
+  const [calcState, setCalcState] = useState({
+      finish: false,
+      a: '',
+      b: '',
+      operator: '',
+      display: '0',
+  })
 
   function dragEndHandler(e) {
     e.preventDefault()
@@ -55,8 +66,6 @@ const App = () => {
   function dragStartHandler(e, widget) {
     e.stopPropagation()
     setCurrentWidget(widget)
-
-    console.log('drag', widget);
   }
 
   function dropHandler(e, widget) {
@@ -91,13 +100,66 @@ const App = () => {
   
       setCanvasWidgets([...canvasWidgets, {...currentWidget, order: canvasWidgets.length + 1}])
     }
+  }
 
-    console.log('drop',widget)
+  function doubleClickHandler(widget) {
+    if (isRuntimeActive) return
+ 
+    setCanvasWidgets(canvasWidgets.filter(w => w.id !== widget.id))
+    setWidgets(widgets.map(w => w.id === widget.id ? ({...w, sideBar: true}): w))
+  }
+
+  function clickHandler(e) {
+    if (!isRuntimeActive) return
+    if (!e.target.closest('.button')) return
+
+    // get clicked btn
+    const key = e.target.textContent
+
+    if (buttons.digitalBtns.includes(key)) {
+      if (calcState.b === '' && calcState.operator === '') {
+        setCalcState(prev => {return {...prev, a: prev.a + key}})
+        setCalcState(prev => {return {...prev, display: prev.a}})
+      } else if (calcState.a !== '' && calcState.b !== '' && calcState.finish) {
+        // setCalcState(prev => {return {...prev, b: prev.b + key}})
+
+      } else {
+        setCalcState(prev => {return {...prev, b: prev.b + key}})
+        setCalcState(prev => {return {...prev, display: prev.b}})
+      }
+      return
+    } 
+
+    if (buttons.operatorBtns.includes(key)) {
+      setCalcState({...calcState, operator: key})
+      return
+    }
+
+    if (buttons.equelsBtn.includes(key)) {
+      let a = calcState.a
+      let b = calcState.b
+      switch (calcState.operator) {
+        case "+":
+          setCalcState(prev => {return {...prev, a: (+a) + (+b)}})
+          break
+        case "-":
+          setCalcState(prev => {return {...prev, a: (+a) - (+b)}})
+          break
+        case "x":
+          setCalcState(prev => {return {...prev, a: (+a) * (+b)}})
+          break
+        case "/":
+          setCalcState(prev => {return {...prev, a: (+a) / (+b)}})
+          break
+      }
+      setCalcState(prev => {return {...prev, finish: true, display: prev.a}})
+    }
   }
 
   return (
     <Context.Provider 
       value={{
+        buttons,
         isRuntimeActive,
         setRuntimeActive,  
         widgets, 
@@ -106,7 +168,10 @@ const App = () => {
         dragStartHandler,
         dragEndHandler,
         dropHandler,
-        canvasWidgets
+        canvasWidgets,
+        dislay: calcState.display,
+        clickHandler,
+        doubleClickHandler
         }}>
         <div className="app">
           <div className="app__content">

@@ -6,7 +6,7 @@ import './Button.scss'
 const Button = ({inner, type}) => {
     const {isRuntimeActive} = useContext(Context)
 
-    let btnClass = 'button ' + type + ' ' + (isRuntimeActive && 'pointer')
+    let btnClass = 'button ' + type + ' ' + (isRuntimeActive && 'pointer button-active')
 
     if (inner === '0') {
         btnClass = btnClass + ' wide'

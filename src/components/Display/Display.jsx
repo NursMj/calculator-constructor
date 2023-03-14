@@ -1,10 +1,14 @@
+import { useContext } from 'react';
+import { Context } from '../../context';
 import './Display.scss'
 
 const Display = () => {
+    const {dislay} = useContext(Context)
+
     return (
         <div className="display">
             <div className="display__inner">
-                0
+                {dislay}
             </div>
         </div>
     );

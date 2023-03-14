@@ -1,18 +1,21 @@
+import { useContext } from 'react'
 import Button from '../Button'
+import {Context} from '../../context'
 import './ButtonsPad.scss'
 
 const ButtonsPad = ({type}) => {
+    const {buttons} = useContext(Context)    
     let buttonsList
     
     switch (type) {
         case 'operators':
-            buttonsList = ['/', 'x', '-', '+']
+            buttonsList = buttons.operatorBtns
             break;
         case 'digital':
-            buttonsList = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', ',']
+            buttonsList = buttons.digitalBtns
             break;
         case 'equels':
-            buttonsList = ['=']
+            buttonsList = buttons.equelsBtn
             break;
     }
 
