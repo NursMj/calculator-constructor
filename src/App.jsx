@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import SideBar from './components/SideBar'
 import SwitchBar from './components/SwitchBar'
 import CanvasBoard from './components/CanvasBoard'
@@ -16,6 +16,14 @@ let calcState = {
   b: '',
   operator: '',
   finish: false,
+}
+
+function cutLongNumber(num) {
+  if (num.toString().length > 17) {
+    num = Number(num.toPrecision(15));
+  }
+
+  return num
 }
 
 const App = () => {
@@ -98,7 +106,12 @@ const App = () => {
     if (currentWidget.sideBar) {
       const currentIndex = widgets.indexOf(currentWidget)
 
-      widgets[currentIndex].sideBar = false
+      setWidgets(widgets.map((w, i) => {
+        if (i === currentIndex) {
+          w.sideBar = false
+        }
+        return w
+      }))
   
       setCanvasWidgets([...canvasWidgets, {...currentWidget, order: canvasWidgets.length + 1}])
     }
@@ -106,6 +119,7 @@ const App = () => {
 
   function doubleClickHandler(widget) {
     if (isRuntimeActive) return
+    if (widget.type === 'display') return
  
     setCanvasWidgets(canvasWidgets.filter(w => w.id !== widget.id))
     setWidgets(widgets.map(w => w.id === widget.id ? ({...w, sideBar: true}): w))
@@ -134,13 +148,11 @@ const App = () => {
         calcState.b  += key
         setDisplay(calcState.b)
       }
-      console.log(calcState)
       return
     } 
 
     if (buttons.operatorBtns.includes(key)) {
       calcState.operator = key
-      console.log(calcState);
       return
     }
 
@@ -150,34 +162,29 @@ const App = () => {
       if (b === '') b = a
       switch (calcState.operator) {
         case "+":
-          calcState.a = (+a) + (+b)
+          calcState.a = cutLongNumber((+a) + (+b))
           break
         case "-":
-          calcState.a = (+a) - (+b)
+          calcState.a = cutLongNumber((+a) - (+b))
           break
         case "x":
-          calcState.a = (+a) * (+b)
+          calcState.a = cutLongNumber((+a) * (+b))
           break
         case "/":
           if (b === '0') {
-            calcState.a = ''
+            calcState.a = '0'
             calcState.b = ''
             calcState.operator = ''
             setDisplay('Не определено')
             return
           }
-          calcState.a = (+a) / (+b)
+          calcState.a = cutLongNumber((+a) / (+b))
           break
       }
       calcState.finish = true
       setDisplay(calcState.a)
-      console.log(calcState);
     }
   }
-
-  useEffect(() => {
-    console.log(display)
-  }, [display])
 
   return (
     <Context.Provider 

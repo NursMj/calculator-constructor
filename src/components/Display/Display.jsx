@@ -8,7 +8,7 @@ const Display = () => {
 
     if (display === 'Не определено') {
         classes += ' fz-24'
-    } else if (display.length > 9) {
+    } else if (display.toString().length > 9) {
         classes += ' fz-19'
     }
 
