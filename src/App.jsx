@@ -120,8 +120,19 @@ const App = () => {
   function doubleClickHandler(widget) {
     if (isRuntimeActive) return
     if (widget.type === 'display') return
- 
-    setCanvasWidgets(canvasWidgets.filter(w => w.id !== widget.id))
+
+    let deletedWidgetIndex
+
+    setCanvasWidgets(canvasWidgets.map((w, i) => {
+      if (w.id === widget.id) {
+        deletedWidgetIndex = i
+        return null
+      } else if (i > deletedWidgetIndex) {
+        return {...w, order: w.order - 1}
+      } else {
+        return w
+      }
+    }).filter(Boolean))
     setWidgets(widgets.map(w => w.id === widget.id ? ({...w, sideBar: true}): w))
   }
 
