@@ -12,3 +12,18 @@
 .pointer {
     cursor: pointer;
 }
+
+
+.widget-wrapper {
+    position: relative;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.mb-8 {
+    margin-bottom: 8px;
+}
+
+.move {
+    cursor: move;
+}

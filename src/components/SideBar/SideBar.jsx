@@ -15,7 +15,7 @@ const SideBar = () => {
                 return <div 
                             onDragStart={e => dragStartHandler(e, widget)}
                             key={i} 
-                            className={'widget-wrapper shadow mb-12 ' + (!widget.sideBar && 'transparent') + (!isRuntimeActive && ' move')}
+                            className={'widget-wrapper shadow mb-8 ' + (!widget.sideBar && 'transparent') + (!isRuntimeActive && ' move')}
                             draggable={!isRuntimeActive && widget.sideBar}
                         >
                             {widget.type === 'display' ? <Display /> : <ButtonsPad type={widget.type}/>}

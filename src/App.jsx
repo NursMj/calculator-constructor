@@ -38,6 +38,16 @@ const App = () => {
   const [canvasWidgets, setCanvasWidgets] = useState([])
   const [display, setDisplay] = useState('0')
 
+  function resetCalc() {
+    setDisplay('0')
+    calcState = {
+      a: '',
+      b: '',
+      operator: '',
+      finish: false,
+    }
+  }
+
 
   function dragEndHandler(e) {
     e.preventDefault()
@@ -198,6 +208,8 @@ const App = () => {
           }
           calcState.a = cutLongNumber((+a) / (+b))
           break
+        default:
+          console.log(calcState)
       }
       calcState.finish = true
       setDisplay(calcState.a)
@@ -219,7 +231,8 @@ const App = () => {
         canvasWidgets,
         display,
         clickHandler,
-        doubleClickHandler
+        doubleClickHandler,
+        resetCalc
         }}>
         <div className="app">
           <div className="app__content">
@@ -228,7 +241,23 @@ const App = () => {
             </div>
             <SideBar />
             <CanvasBoard />
+            <div className='description'>
+              <h3 className='description__title'>Описание</h3>
+              <p className="description__text">
+                Это не большое веб приложение, в котором вы можете сканструировать калькулятор.
+                <br />
+                <br />
+                Можно переключатся между режимом конструктора и runtime
+                <br />
+                <br />
+                В режиме конструктора можно собирать интерфейс, перетаскивая компоненты с левой панели на холст, но при нажатии на кнопки, они ничего не делают. При двойном нажатии мыши на компонент, дабавленный на холст, он удаляется от туда. Так же можно ранжировать компонеты на холсте, перетаскивая их, кроме дисплея, он всегда становится в начало.
+                <br />
+                <br />
+                В режиме runtime перетаскивать ничего нельзя, полностью скрывается левая панель, но работает калькулятор. Нажимаем на кнопки и видим результат на дисплее.
+              </p>
+            </div>
           </div>
+
       </div>
     </Context.Provider>
   )

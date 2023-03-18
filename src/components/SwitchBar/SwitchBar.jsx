@@ -7,12 +7,13 @@ import arrowsActive from '../../assets/arrowsActive.svg'
 import {Context} from '../../context'
 
 const SwitchBar = () => {
-    let {isRuntimeActive, setRuntimeActive} = useContext(Context)
+    let {isRuntimeActive, setRuntimeActive, resetCalc} = useContext(Context)
     const activeClass = 'switch__btn_active'
 
     const switchChange = (e) => {
         if (!e.target.closest('div').classList.contains(activeClass)) {
             setRuntimeActive(isRuntimeActive = !isRuntimeActive)
+            resetCalc()
         }        
     }
 
