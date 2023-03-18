@@ -26,6 +26,8 @@ function cutLongNumber(num) {
   return num
 }
 
+let currentWidget
+
 const App = () => {
   const [isRuntimeActive, setRuntimeActive] = useState(false)
   const [widgets, setWidgets] = useState([
@@ -34,7 +36,6 @@ const App = () => {
     {id: 3,type: 'digital', sideBar: true},
     {id: 4,type: 'equels', sideBar: true},
   ])
-  const [currentWidget, setCurrentWidget] = useState()
   const [canvasWidgets, setCanvasWidgets] = useState([])
   const [display, setDisplay] = useState('0')
 
@@ -85,7 +86,7 @@ const App = () => {
 
   function dragStartHandler(e, widget) {
     e.stopPropagation()
-    setCurrentWidget(widget)
+    currentWidget = widget
   }
 
   function dropHandler(e, widget) {
