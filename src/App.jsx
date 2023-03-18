@@ -89,18 +89,19 @@ const App = () => {
     if (e.target.closest('.widget-wrapper')) {
       e.target.closest('.widget-wrapper').classList.remove('dragged-on')
 
-      setCanvasWidgets(canvasWidgets.map(w => {
-        if (w.type === 'display') {
-          return {...w, order: 1}
-        }
-        if(w.type === widget.type) {
-          return {...w, order: currentWidget.order}
-        }
-        if (w.type === currentWidget.type) {
-          return {...w, order: widget.order}
-        }
-        return w
-      }))
+      if (e.target.closest('.widget-wrapper').classList.contains('display')) {
+        return
+      } else {
+        setCanvasWidgets(canvasWidgets.map(w => {
+          if(w.type === widget.type) {
+            return {...w, order: currentWidget.order}
+          }
+          if (w.type === currentWidget.type) {
+            return {...w, order: widget.order}
+          }
+          return w
+        }))
+      }
     
     }
     if (currentWidget.sideBar) {
@@ -113,13 +114,19 @@ const App = () => {
         return w
       }))
   
-      setCanvasWidgets([...canvasWidgets, {...currentWidget, order: canvasWidgets.length + 1}])
+      if (currentWidget.type === 'display') {
+        const newCanvasWidgets = canvasWidgets.map(w => ({ ...w, order: w.order + 1 }))
+        newCanvasWidgets.unshift({ ...currentWidget, order: 1 })
+
+        setCanvasWidgets(newCanvasWidgets)
+      } else {
+        setCanvasWidgets([...canvasWidgets, {...currentWidget, order: canvasWidgets.length + 1}])
+      }
     }
   }
 
   function doubleClickHandler(widget) {
     if (isRuntimeActive) return
-    if (widget.type === 'display') return
 
     let deletedWidgetIndex
 

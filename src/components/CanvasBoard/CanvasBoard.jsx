@@ -6,7 +6,7 @@ import {Context} from '../../context'
 import './CanvasBoard.scss'
 
 
-const sortCards = (a, b) => {
+const sortWidgets = (a, b) => {
     if (a.order > b.order) {
       return 1
     } else {
@@ -30,7 +30,7 @@ const CanvasBoard = () => {
             { canvasWidgets.length ? 
                 <>
                     {
-                        canvasWidgets.sort(sortCards).map((widget) => {
+                        canvasWidgets.sort(sortWidgets).map((widget) => {
                             const widgetClass = 'widget-wrapper mb-8 ' + (widget.type === 'display' ? widget.type : '') + (!isRuntimeActive && ' move')
 
                             return <div 
