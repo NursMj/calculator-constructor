@@ -1,10 +1,9 @@
-import { useContext } from 'react'
-import { Context } from '../../context'
+import { useSelector } from 'react-redux'
 import './Button.scss'
 
 
 const Button = ({inner, type}) => {
-    const {isRuntimeActive} = useContext(Context)
+    const isRuntimeActive = useSelector(state => state.activeStatus.activeStatus)
 
     let btnClass = 'button ' + type + ' ' + (isRuntimeActive && 'pointer button-active')
 

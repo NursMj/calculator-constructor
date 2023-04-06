@@ -4,6 +4,7 @@ import SwitchBar from './components/SwitchBar'
 import CanvasBoard from './components/CanvasBoard'
 import {Context} from './context'
 import './App.scss'
+import { useSelector } from 'react-redux'
 
 const buttons = {
   operatorBtns:['/', 'x', '-', '+'],
@@ -29,7 +30,7 @@ function cutLongNumber(num) {
 let currentWidget
 
 const App = () => {
-  const [isRuntimeActive, setRuntimeActive] = useState(false)
+  const isRuntimeActive = useSelector(state => state.activeStatus.activeStatus)
   const [widgets, setWidgets] = useState([
     {id: 1,type: 'display', sideBar: true},
     {id: 2,type: 'operators', sideBar: true},
@@ -221,8 +222,6 @@ const App = () => {
     <Context.Provider 
       value={{
         buttons,
-        isRuntimeActive,
-        setRuntimeActive,  
         widgets, 
         setWidgets,
         dragOverHandler,

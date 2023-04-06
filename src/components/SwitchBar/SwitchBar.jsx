@@ -1,20 +1,26 @@
 import { useContext } from 'react'
+import { useDispatch } from "react-redux"
+import { changeActiveStatus } from '../../store/activeStatusSlice'
 import './SwitchBar.scss'
 import eye from '../../assets/eye.svg'
 import eyeActive from '../../assets/eyeActive.svg'
 import arrows from '../../assets/arrows.svg'
 import arrowsActive from '../../assets/arrowsActive.svg'
 import {Context} from '../../context'
+import { useSelector } from 'react-redux'
 
 const SwitchBar = () => {
-    let {isRuntimeActive, setRuntimeActive, resetCalc} = useContext(Context)
+    let {resetCalc} = useContext(Context)
+    const isRuntimeActive = useSelector(state => !state.activeStatus.activeStatus)
+    const dispatch = useDispatch()
+
     const activeClass = 'switch__btn_active'
 
     const switchChange = (e) => {
-        if (!e.target.closest('div').classList.contains(activeClass)) {
-            setRuntimeActive(isRuntimeActive = !isRuntimeActive)
-            resetCalc()
-        }        
+        if (e.target.closest('div').classList.contains(activeClass)) return
+
+        dispatch(changeActiveStatus())
+        resetCalc()        
     }
 
     return (

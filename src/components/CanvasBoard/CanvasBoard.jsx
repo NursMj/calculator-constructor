@@ -1,22 +1,20 @@
 import { useContext } from 'react'
+import {useSelector} from 'react-redux'
 import canvasImg from '../../assets/canvasImg.svg'
 import Display from '../Display'
 import ButtonsPad from '../ButtonsPad'
 import {Context} from '../../context'
+import sortWidgets from '../../utils/sortWidgets'
 import './CanvasBoard.scss'
 
 
-const sortWidgets = (a, b) => {
-    if (a.order > b.order) {
-      return 1
-    } else {
-      return -1
-    }
-}
 
 const CanvasBoard = () => {
 
-    const { dragOverHandler, dropHandler, canvasWidgets, isRuntimeActive, dragStartHandler, dragEndHandler, clickHandler, doubleClickHandler } = useContext(Context)
+    const { dragOverHandler, dropHandler, canvasWidgets, dragStartHandler, dragEndHandler, clickHandler, doubleClickHandler } = useContext(Context)
+
+    const isRuntimeActive = useSelector(state => state.activeStatus.activeStatus)
+
     
     return (
         <div 

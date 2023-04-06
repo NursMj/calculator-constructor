@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import {useSelector} from 'react-redux'
 import Display from '../Display'
 import ButtonsPad from '../ButtonsPad'
 import {Context} from '../../context'
@@ -6,7 +7,10 @@ import './SideBar.scss'
 
 const SideBar = () => {
     
-    const {isRuntimeActive, widgets, dragStartHandler} = useContext(Context)
+    const {widgets, dragStartHandler} = useContext(Context)
+
+    const isRuntimeActive = useSelector(state => state.activeStatus.activeStatus)
+
 
 
     return (
