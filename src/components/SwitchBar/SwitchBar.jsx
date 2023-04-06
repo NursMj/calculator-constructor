@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { changeActiveStatus } from '../../store/activeStatusSlice'
 import './SwitchBar.scss'
 import eye from '../../assets/eye.svg'
@@ -7,7 +7,7 @@ import eyeActive from '../../assets/eyeActive.svg'
 import arrows from '../../assets/arrows.svg'
 import arrowsActive from '../../assets/arrowsActive.svg'
 import {Context} from '../../context'
-import { useSelector } from 'react-redux'
+
 
 const SwitchBar = () => {
     let {resetCalc} = useContext(Context)

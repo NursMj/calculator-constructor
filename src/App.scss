@@ -12,6 +12,12 @@
         column-gap: 56px;
         row-gap: 30px;
         width: 540px;
+
+        @media (max-width: 570px) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     }
 }
 
