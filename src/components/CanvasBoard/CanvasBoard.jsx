@@ -13,6 +13,8 @@ const CanvasBoard = () => {
 
     const { dragOverHandler, dropHandler, canvasWidgets, dragStartHandler, dragEndHandler, clickHandler, doubleClickHandler } = useContext(Context)
 
+    const language = useSelector(state => state.language.language)
+
     const isRuntimeActive = useSelector(state => state.activeStatus.activeStatus)
 
     
@@ -50,8 +52,12 @@ const CanvasBoard = () => {
                 :
                 <div className="canvas-content" onDragOver={e => dragOverHandler(e)}>
                     <img className='canvas-img' src={canvasImg} alt="" /> 
-                    <div className='canvas-title'>Перетащите сюда</div> 
-                    <div className='canvas-text'>любой элемент из левой панели</div>
+                    <div className='canvas-title'>
+                        {language ? 'Перетащите сюда' : 'Drag here'}
+                    </div> 
+                    <div className='canvas-text'>
+                        {language ? 'любой элемент из левой панели' : 'any item from the left panel'}
+                    </div>
                 </div>
             }
         </div>

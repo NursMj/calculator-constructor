@@ -26,7 +26,7 @@ const SwitchBar = () => {
     return (
         <div className='switch-bar pointer'>
             <div 
-                className={`switch__btn ${isRuntimeActive && activeClass}`}
+                className={`switch__btn ${!isRuntimeActive && activeClass}`}
                 onClick={switchChange}
             >
                 <img 
@@ -36,7 +36,7 @@ const SwitchBar = () => {
                 Runtime
             </div>
             <div 
-                className={`switch__btn ${!isRuntimeActive && activeClass}`}
+                className={`switch__btn ${isRuntimeActive && activeClass}`}
                 onClick={switchChange}
             >
                 <img 

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import SideBar from './components/SideBar'
 import SwitchBar from './components/SwitchBar'
+import SwitchLanguage from './components/SwitchLanguage'
 import CanvasBoard from './components/CanvasBoard'
 import {Context} from './context'
-import { useSelector, useDispatch } from 'react-redux'
-import { changeLanguage } from './store/languageSlice'
+import { useSelector } from 'react-redux'
 
 import './App.scss'
 
@@ -34,7 +34,6 @@ let currentWidget
 const App = () => {
   const isRuntimeActive = useSelector(state => state.activeStatus.activeStatus)
   const language = useSelector(state => state.language.language)
-  const dispatch = useDispatch()
 
   const [widgets, setWidgets] = useState([
     {id: 1,type: 'display', sideBar: true},
@@ -210,7 +209,7 @@ const App = () => {
             calcState.a = '0'
             calcState.b = ''
             calcState.operator = ''
-            setDisplay('Не определено')
+            language ? setDisplay('Не определено') : setDisplay('Undefined')
             return
           }
           calcState.a = cutLongNumber((+a) / (+b))
@@ -223,28 +222,11 @@ const App = () => {
     }
   }
 
-  function switchLanguage() {
-    dispatch(changeLanguage())
-  }
-
-  const test = 'test \ntest'
 
   const description = language ? 
-    `Это небольшое веб приложение, в котором вы можете сконструировать калькулятор. 
-    
-    Можно переключатся между режимом конструктора и runtime. 
-    
-    В режиме конструктора можно собирать интерфейс, перетаскивая компоненты с левой панели на холст, но при нажатии на кнопки, они ничего не делают. При двойном нажатии мыши на компонент, дабавленный на холст, он удаляется от туда. Так же можно ранжировать компонеты на холсте, перетаскивая их, кроме дисплея, он всегда становится в начало. (Режим конструктора не адаптирован под мобильные устройства) 
-    
-    В режиме runtime перетаскивать ничего нельзя, полностью скрывается левая панель, но работает калькулятор. Нажимаем на кнопки и видим результат на дисплее.`
+    'Это небольшое веб приложение, в котором вы можете сконструировать калькулятор. \n\nМожно переключатся между режимом конструктора и runtime. \n\nВ режиме конструктора можно собирать интерфейс, перетаскивая компоненты с левой панели на холст, но при нажатии на кнопки, они ничего не делают. При двойном нажатии мыши на компонент, дабавленный на холст, он удаляется от туда. Так же можно ранжировать компонеты на холсте, перетаскивая их, кроме дисплея, он всегда становится в начало. (Режим конструктора не адаптирован под мобильные устройства) \n\nВ режиме runtime перетаскивать ничего нельзя, полностью скрывается левая панель, но работает калькулятор. Нажимаем на кнопки и видим результат на дисплее.'
     : 
-    `This is a small web application where you can build a calculator.
-    
-    You can switch between constructor mode and runtime
-    
-    In constructor mode, you can assemble the interface by dragging components from the left panel onto the canvas, but when you click on the buttons, they do nothing. When you double-click on a component added to the canvas, it moves away from there. You can also rank components on the canvas by dragging them, except for the display, it always gets to the top. (Constructor mode is not adapted for mobile devices)
-    
-    In runtime mode, nothing can be dragged, the left panel is completely hidden, but the calculator works. We press the buttons and see the result on the display.`
+    `This is a small web application where you can build a calculator.\n\nYou can switch between constructor mode and runtime \n\nIn constructor mode, you can assemble the interface by dragging components from the left panel onto the canvas, but when you click on the buttons, they do nothing. When you double-click on a component added to the canvas, it moves away from there. You can also rank components on the canvas by dragging them, except for the display, it always gets to the top. (Constructor mode is not adapted for mobile devices) \n\nIn runtime mode, nothing can be dragged, the left panel is completely hidden, but the calculator works. We press the buttons and see the result on the display.`
 
   
   return (
@@ -265,7 +247,7 @@ const App = () => {
         }}>
         <div className="app">
           <div className="app__content">
-            <button onClick={switchLanguage}>{language ? 'Rus': 'Eng'}</button>
+            <SwitchLanguage />
             <div className='switch-bar_wrapper'>
               <SwitchBar/>
             </div>
@@ -273,7 +255,7 @@ const App = () => {
             <CanvasBoard />
             <div className='description'>
               <h3 className='description__title'>{language ? 'Описание': 'Description'}</h3>
-              <p className="description__text">
+              <p className="description__text css-fix"  >
                 {description}
               </p>
             </div>
