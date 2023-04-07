@@ -4,7 +4,7 @@ import './SwitchLanguage.scss'
 
 
 
-const switchLanguage = () => {
+const SwitchLanguage = () => {
 
     const language = useSelector(state => !state.language.language)
     const dispatch = useDispatch()
@@ -33,4 +33,4 @@ const switchLanguage = () => {
     )
 }
 
-export default switchLanguage
+export default SwitchLanguage
