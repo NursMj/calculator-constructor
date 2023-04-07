@@ -31,7 +31,7 @@ const SwitchBar = () => {
             >
                 <img 
                     className='switch__img' 
-                    src={isRuntimeActive ? eyeActive : eye} 
+                    src={!isRuntimeActive ? eyeActive : eye} 
                     alt="" />
                 Runtime
             </div>
@@ -41,7 +41,7 @@ const SwitchBar = () => {
             >
                 <img 
                     className='switch__img' 
-                    src={isRuntimeActive ? arrowsActive : arrows}
+                    src={!isRuntimeActive ? arrowsActive : arrows}
                     alt="" />
                 Constructor
             </div>
